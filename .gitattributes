@@ -3,6 +3,7 @@
 
 *.ts text
 *.js text
+*.cmd 
 appbuilder text
 
 *.zip binary
