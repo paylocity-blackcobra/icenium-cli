@@ -1,0 +1,10 @@
+# we need our shell script (bin/appbuilder) to use unix line endings
+* text eol=lf
+
+*.ts text
+*.js text
+appbuilder text
+
+*.zip binary
+*.exe binary
+*.dll binary
