@@ -1,6 +1,5 @@
 interface ILogger {
 	fatal(formatStr: any, ...args): void;
-	error(formatStr: any, ...args): void;
 	warn(formatStr: any, ...args): void;
 	info(formatStr: any, ...args): void;
 	debug(formatStr: any, ...args): void;

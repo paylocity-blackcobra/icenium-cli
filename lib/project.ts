@@ -18,6 +18,7 @@ import MobileHelper = require("./mobile/mobile-helper");
 export class BuildService implements Project.IBuildService {
 	constructor(private $config: IConfiguration,
 		private $logger: ILogger,
+		private $errors: IErrors,
 		private $server: Server.IServer,
 		private $projectNameValidator) { }
 
@@ -62,7 +63,7 @@ export class BuildService implements Project.IBuildService {
 			var body = this.$server.build.buildProject(solutionName, projectName, {Properties: buildProperties}).wait();
 
 			if (body.Errors.length) {
-				this.$logger.error("Build errors: %s", body.Errors);
+				this.$errors.fail("Build errors: %s", body.Errors);
 			}
 
 			var buildResults: Server.IPackageDef[] = body.ResultsByTarget.Build.Items.map(function(buildResult) {

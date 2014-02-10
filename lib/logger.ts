@@ -32,10 +32,6 @@ export class Logger implements ILogger {
 		log4jsLogger.fatal.apply(log4jsLogger, args);
 	}
 
-	error(...args): void {
-		log4jsLogger.error.apply(log4jsLogger, args);
-	}
-
 	warn(...args): void {
 		log4jsLogger.warn.apply(log4jsLogger, args);
 	}
@@ -61,10 +57,6 @@ $injector.register("logger", Logger);
 // This should be deleted after all code that uses it is refactored
 export function fatal(...args): void {
 	log4jsLogger.fatal.apply(log4jsLogger, args);
-}
-
-export function error(...args): void {
-	log4jsLogger.error.apply(log4jsLogger, args);
 }
 
 export function warn(...args): void {

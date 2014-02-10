@@ -6,13 +6,13 @@ import validUrl = require("valid-url");
 import fs = require("fs");
 
 export class FetchPluginCommand implements ICommand {
-	constructor(private $logger: ILogger,
-		private $cordovaPluginsService: service.CordovaPluginsService) {
+	constructor(private $cordovaPluginsService: service.CordovaPluginsService,
+		private $errors: IErrors) {
 	}
 
 	public execute(args: string[]): void {
 		if (args.length === 0) {
-			this.$logger.error("You must specify local path, URL to a plugin repository, name or keywords of a plugin published to the Cordova Plugin Registry.");
+			this.$errors.fail("You must specify local path, URL to a plugin repository, name or keywords of a plugin published to the Cordova Plugin Registry.");
 		} else if (args.length === 1 && (this.isLocalPath(args[0]) || this.isUrlToRepository(args[0]))) {
 			var result = this.$cordovaPluginsService.fetch(args[0]);
 			console.log(result);
