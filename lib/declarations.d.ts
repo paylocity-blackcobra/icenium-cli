@@ -285,3 +285,8 @@ interface IX509CertificateLoader {
 interface IQrCodeGenerator {
 	generateDataUri(data: string): string;
 }
+
+interface IAnalyticsService {
+	start(): void;
+	trackFeatureValue(featureName: string, featureValue: number): void;
+}

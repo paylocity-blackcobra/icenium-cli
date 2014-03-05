@@ -1,5 +1,6 @@
 
 //grunt-start
+/// <reference path="analytics-service.ts" />
 /// <reference path="appbuilder-cli.ts" />
 /// <reference path="bootstrap.ts" />
 /// <reference path="child-process.ts" />
