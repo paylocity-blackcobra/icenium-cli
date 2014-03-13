@@ -14,9 +14,8 @@ The Telerik AppBuilder CLI lets you build, test, deploy, and publish hybrid mobi
 <a id="bug"></a>
 Report an Issue
 ===
-
+If you find a bug in the source code or a mistake in the documentation, you can help us by submitting an issue to our <a href="https://github.com/Icenium/icenium-cli">GitHub Repository</a>.
 Before you submit your issue search the archive, maybe your question was already answered.
-
 If your issue appears to be a bug, and hasn't been reported, open a new issue. Help us to maximize the effort we can spend fixing issues and adding new features, by not reporting duplicate issues. Providing the following information will increase the chances of your issue being dealt with quickly:
 
 * Overview of the issue - if an error is being thrown a stack trace helps
