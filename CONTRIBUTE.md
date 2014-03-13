@@ -20,7 +20,7 @@ If your issue appears to be a bug, and hasn't been reported, open a new issue. H
 
 * Overview of the issue - if an error is being thrown a stack trace helps
 * Motivation for or Use Case - explain why this is a bug for you
-* Teletik AppBuilder Version(s) - is it a regression?
+* Telerik AppBuilder Version(s) - is it a regression?
 * Operating System - is this a problem with all operating systems?
 * Reproduce the error - provide an unambiguous set of steps.
 * Related issues - has a similar issue been reported before?
