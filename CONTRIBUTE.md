@@ -39,6 +39,7 @@ If you would like to implement a new feature then consider submitting it to the 
 <a id="contribute"></a>
 Contribute to the Code Base
 ===
+First read our <a href="https://github.com/Icenium/icenium-cli/blob/develop/for-developers.md">developers documentation</a> if you haven't done that already.
 
 Before you submit your Pull Request consider the following guidelines:
 
