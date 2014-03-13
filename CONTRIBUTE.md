@@ -31,6 +31,8 @@ If your issue appears to be a bug, and hasn't been reported, open a new issue. H
 <a id="request"></a>
 Request a Feature
 ===
+You can request a new feature by submitting an issue with an enhancement tag to our <a href="https://github.com/Icenium/icenium-cli">GitHub Repository</a>.
+If you would like to implement a new feature then consider submitting it to the <a href="https://github.com/Icenium/icenium-cli">GitHub Repository</a> as a Pull Request.
 
 [Back to Top][1]
 
@@ -38,7 +40,7 @@ Request a Feature
 Contribute to the Code Base
 ===
 
-Before you submit your pull request consider the following guidelines:
+Before you submit your Pull Request consider the following guidelines:
 
 * Search <a href="https://github.com/Icenium/icenium-cli/pulls">GitHub</a> for an open or closed Pull Request that relates to your submission. You don't want to duplicate effort.
 * Make your changes in a new git branch. We use the <a href="http://nvie.com/posts/a-successful-git-branching-model/">Gitflow branching model</a> so you will have to branch from our develop branch:
