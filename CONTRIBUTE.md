@@ -13,6 +13,7 @@ The Telerik AppBuilder CLI lets you build, test, deploy, and publish hybrid mobi
 
 <a id="bug"></a>
 Report an Issue
+===
 
 Before you submit your issue search the archive, maybe your question was already answered.
 
@@ -26,8 +27,6 @@ If your issue appears to be a bug, and hasn't been reported, open a new issue. H
 * Related issues - has a similar issue been reported before?
 * Suggest a Fix - if you can't fix the bug yourself, perhaps you can point to what might be causing the problem (line of code or commit)
 
-===
-
 [Back to Top][1]
 
 <a id="request"></a>
@@ -39,6 +38,58 @@ Request a Feature
 <a id="contribute"></a>
 Contribute to the Code Base
 ===
+
+Before you submit your pull request consider the following guidelines:
+
+* Search <a href="https://github.com/Icenium/icenium-cli/pulls">GitHub</a> for an open or closed Pull Request that relates to your submission. You don't want to duplicate effort.
+* Make your changes in a new git branch. We use the <a href="http://nvie.com/posts/a-successful-git-branching-model/">Gitflow branching model</a> so you will have to branch from our develop branch:
+```
+    git checkout -b my-fix-branch develop
+```
+* Create your patch, including appropriate test cases.
+* Commit your changes and create a descriptive commit message (the commit message is used to generate release notes):
+```
+    git commit -a
+```
+* Build your changes locally:
+```
+    grunt
+```
+* Ensure all the tests pass:
+```
+    grunt test
+```
+* Push your branch to GitHub:
+```
+    git push origin my-fix-branch
+```
+* In GitHub, send a Pull Request to icenium-cli:develop.
+
+* If we suggest changes then you can modify your branch, rebase and force a new push to your GitHub repository to update the Pull Request:
+```
+    git rebase develop -i
+    git push -f
+```
+* That's it! Thank you for your contribution!
+
+When the patch is reviewed and merged, you can safely delete your branch and pull the changes from the main (upstream) repository:
+
+* Delete the remote branch on GitHub:
+```
+    git push origin --delete my-fix-branch
+```
+* Check out the develop branch:
+```
+    git checkout develop -f
+```
+* Delete the local branch:
+```
+    git branch -D my-fix-branch
+```
+* Update your develop with the latest upstream version:
+```
+    git pull --ff upstream develop
+```
 
 [Back to Top][1]
 
