@@ -12,7 +12,7 @@ export class CommandsService implements ICommandsService {
 	public executeCommandUnchecked(commandName: string, commandArguments: string[]): boolean {
 		var command = $injector.resolveCommand(commandName);
 		if (command) {
-			this.$analyticsService.start();
+ 			this.$analyticsService.start().wait();
 			this.$analyticsService.trackFeatureValue(commandName, 1);
 			command.execute(commandArguments).wait();
 			return true;

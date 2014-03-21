@@ -287,6 +287,6 @@ interface IQrCodeGenerator {
 }
 
 interface IAnalyticsService {
-	start(): void;
+	start(): IFuture<void>;
 	trackFeatureValue(featureName: string, featureValue: number): void;
 }
