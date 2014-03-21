@@ -116,11 +116,11 @@
 		// Get the environment information of the current client
 		getInfo: function (logger) {
 			console.log("getInfo");
-			var info = {}, nav = global.navigator, scr = global.screen, doc = global.document;
+			var info = {}, nav = navigator, scr = global.screen, doc = global.document;
 
-			console.log("scr" + scr);
 			info.screen = scr ? scr.width + "x" + scr.height : "-";
-			console.log("screen" + info.screen);
+			console.log("navigator: ");
+			console.log(nav);
 			info.depth = scr ? scr.colorDepth + "-bit" : "-";
 			if(nav) {
 				info.language = (nav && (nav.language || nav.userLanguage) || "-").toLowerCase();
@@ -935,6 +935,8 @@
 
 		var sendPayloadToServer = function (isStopMessage) {
 			try {
+				console.log("============sendPayloadToServer============");
+
 				var successPostFix = isStopMessage === true ? " Monitor stopped." : "";
 				lastSendTime = eqatecUtil.getTimeStamp();
 				hasForceSyncBeenCalledWhileSending = false;
@@ -942,6 +944,7 @@
 				var qs = [];
 				var versionSending = statisticsContainer.version(); //the version of the statistics that is being send
 				jsonData = createPayload(qs);
+
 				var queryString = "?" + qs.join('&');
 				var fullUri = serverUri + queryString;
 
@@ -1016,6 +1019,10 @@
 				}
 
 				if (requestObject && jsonData) {
+
+					console.log("jsonData: ");
+					console.log(jsonData);
+
 					//initiate the async request
 					requestObject.send(jsonData);
 					isSending = true;

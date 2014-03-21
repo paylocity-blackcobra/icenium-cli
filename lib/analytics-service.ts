@@ -2,6 +2,7 @@
 
 import util = require("util");
 import path = require("path");
+import helpers = require("./helpers");
 
 export class AnalyticsService implements IAnalyticsService {
     private _eqatecMonitor: any = null;
@@ -21,9 +22,11 @@ export class AnalyticsService implements IAnalyticsService {
     public start(): IFuture<void> {
 		return(() => {
 			try {
-				var userAgentString = util.format("AppBuilderCLI/%s (Node.js %s; %s; %s)",
-					this.$config.version,
-					process.versions.node, process.platform, process.arch);
+//				var userAgentString = util.format("AppBuilderCLI/%s (Node.js %s; %s; %s)",
+//					this.$config.version,
+//					process.versions.node, process.platform, process.arch);
+
+				var userAgentString = "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.154 Safari/537.36";
 
 				global.navigator = {
 					userAgent: userAgentString
@@ -45,9 +48,14 @@ export class AnalyticsService implements IAnalyticsService {
 
 				var settings = global._eqatec.createSettings(AnalyticsService.PRODUCT_KEY);
 				settings.version = this.$config.version;
+				settings.useCookies = true;
 				settings.loggingInterface = global._eqatec.createTraceLogger();
 
 				this._eqatecMonitor = eqatec._eqatecmonitor = global._eqatec.createMonitor(settings);
+
+				eqatec._eqatecmonitor.setUserID("1234");
+				eqatec._eqatecmonitor.setInstallationID("5678");
+
 				eqatec._eqatecmonitor.start();
 			} catch(e) {
 				this.$logger.trace("Analytics exception: '%s'", e);
@@ -69,6 +77,10 @@ export class AnalyticsService implements IAnalyticsService {
 
 	private getUserSettingsFileSchema(): IFuture<any> {
 		return (() => {
+			if(!this.$fs.exists(this.userSettingsFile)) {
+				this.$fs.writeJson(this.userSettingsFile, {}, "\t");
+			}
+
 			this.userSettingsData = this.$fs.readJson(this.userSettingsFile).wait();
 			return this.userSettingsData;
 		}).future<any>()();
@@ -87,7 +99,14 @@ export class AnalyticsService implements IAnalyticsService {
 			this.getUserSettingsFileSchema();
 			this.userSettingsData["enableAnalytics"] = false;
 			this.$fs.writeJson(this.userSettingsFile, this.userSettingsData, "\t");
+
+			if(this._eqatecMonitor && this._eqatecMonitor.isStarted()) {
+				this._eqatecMonitor.stop();
+			}
 		}).future<void>()();
 	}
 }
 $injector.register("analyticsService", AnalyticsService);
+
+helpers.registerCommand("analyticsService", "enable-analytics", (analyticsService, args) => analyticsService.enableAnalytics().wait());
+helpers.registerCommand("analyticsService", "disable-analytics", (analyticsService, args) => analyticsService.disableAnalytics().wait());
