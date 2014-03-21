@@ -2,6 +2,7 @@
 
 "use strict";
 
+import os = require("os");
 import rimraf = require("rimraf");
 import xml2js = require("xml2js");
 import unzip = require("unzip");
@@ -55,7 +56,7 @@ export class Project implements Project.IProject {
 		return this.cachedProjectDir;
 	}
 
-	private static INTERNAL_NONPROJECT_FILES = [".ab", ".abproject", "*.ipa", "*.apk", "*.xap"];
+	private static INTERNAL_NONPROJECT_FILES = [".ab", ".abproject", ".abignore", "*.ipa", "*.apk", "*.xap"];
 
 	public enumerateProjectFiles(additionalExcludedProjectDirsAndFiles?: string[]): string[] {
 		var excludedProjectDirsAndFiles = Project.INTERNAL_NONPROJECT_FILES.
@@ -66,8 +67,65 @@ export class Project implements Project.IProject {
 			return !this.isFileExcluded(path.relative(projectDir, filePath), excludedProjectDirsAndFiles);
 		});
 
+		projectFiles = this.filterIgnoredFiles(projectFiles);
+
 		this.$logger.trace("enumerateProjectFiles: %s", util.inspect(projectFiles));
 		return projectFiles;
+	}
+
+	private filterIgnoredFiles(files: string[]) :string[] {
+		var rules = this.readRules();
+
+		var selectedFiles = _.select(files, (file: string) => {
+			return this.filterIncluded(file);
+		});
+
+		return selectedFiles;
+	}
+
+	private filterIncluded(file: string) {
+
+		var rules = this.readRules(); // remove when return in the parent lambda
+
+		var fileMatched: boolean = true;
+		_.forEach(rules, rule => {
+			var shouldInclude = rule[0] === '!';
+			if (shouldInclude) {
+				rule = rule.substr(1);
+				var ruleMatched = minimatch(file, rule, {nocase: true});
+				if (ruleMatched) {
+					fileMatched = fileMatched === false && ruleMatched; // it must have been skipped by previous exclude patterns
+				}
+			} else {
+				if (rule[0] === '\\' && rule[1] === '!') {
+					rule = rule.substr(1);
+				}
+				var ruleMatched = minimatch(file, rule, {nocase: true});
+				fileMatched = fileMatched && !ruleMatched;
+			}
+		});
+
+		return fileMatched;
+	}
+
+
+	private readRules() : string[] {
+		var COMMENT_START = '#';
+		var rules = [];
+
+		try {
+			var fullFilePath = path.join(this.getProjectDir(), ".abignore");
+			var fileContent = this.$fs.readFile(fullFilePath).wait().toString();
+			rules = _.reject(fileContent.split(os.EOL),
+				(line: string) => line.length === 0 || line[0] === COMMENT_START);
+
+		} catch(e) {
+			if (e.code !== "ENOENT") { // file not found
+				throw e;
+			}
+		}
+
+		return rules;
 	}
 
 	public isProjectFileExcluded(projectDir: string, filePath: string, additionalExcludedDirsAndFiles?: string[]): boolean {
